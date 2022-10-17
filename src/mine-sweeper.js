@@ -23,10 +23,39 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+ function minesweeper(matrix) {
+  let height = matrix.length; //находим "высоту" массива, считаем сколько строк в многомерном массиве
+  let width = matrix[0].length; //находим длину нулевого массива, т.е. считаем длину первой строки входящей в многомерный массив, строки игры сапер равны по длине
+  let arrNew = Array.from(Array(height), () => new Array(width)); //создаём новый многомерный массив по размеру идентичный исходному
+
+  for(let i = 0; i < height; i++) {
+    for(let j = 0; j < width; j++) {
+
+      let mines = 0;
+
+      if(matrix[i][j-1] === true) mines += 1;
+      if(matrix[i][j+1] === true) mines += 1;
+
+      if(i > 0) {
+        if(matrix[i-1][j-1] === true) mines += 1;
+        if(matrix[i-1][j] === true) mines += 1;
+        if(matrix[i-1][j+1] === true) mines += 1;
+      }
+
+      if(i < height - 1) {
+        if(matrix[i+1][j-1] === true) mines += 1;
+        if(matrix[i+1][j] === true) mines += 1;
+        if(matrix[i+1][j+1] === true) mines += 1;
+      }
+
+      arrNew[i][j] = mines;
+
+    }
+  }
+
+  return arrNew;
 }
+
 
 module.exports = {
   minesweeper
